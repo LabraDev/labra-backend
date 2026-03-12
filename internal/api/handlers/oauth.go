@@ -3,7 +3,9 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"os"
 
+	"github.com/lpernett/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
 )
@@ -11,10 +13,14 @@ import (
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Authenticate gh here
 
+	gh_client := os.Getenv("GH_CLIENT_ID")
+	gh_secret := os.Getenv("GH_CLIENT_SECRET")
+
+	fmt.Println(gh_client, "\n---\n", gh_secret)
 	// Todo: replace redirect host
 	ouathConfig := &oauth2.Config{
-		ClientID:     "GH_CLIENT_ID",
-		ClientSecret: "GH_CLIENT_SECRET",
+		ClientID:     gh_client,
+		ClientSecret: gh_secret,
 		Scopes:       []string{"repo", "user"},
 		Endpoint:     github.Endpoint,
 		RedirectURL:  "http://localhost:8080/callback",

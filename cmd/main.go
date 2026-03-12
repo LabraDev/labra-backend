@@ -5,11 +5,18 @@ import (
 	"net/http"
 
 	"labra-backend/internal/api/routes"
+
+	"github.com/lpernett/godotenv"
 )
 
 const PORT = "8080"
 
 func main() {
+	err := godotenv.Load("./../.env")
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	mux := http.NewServeMux()
 
 	routes.Oauth(mux)
