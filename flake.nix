@@ -11,12 +11,17 @@
 			let pkgs = nixpkgs.legacyPackages.${system};
 			in {
 				devShell = pkgs.mkShell { 
-					buildInputs = [ pkgs.postgresql pkgs.go ]; 
+					buildInputs = [ pkgs.postgresql pkgs.go pkgs.air ]; 
 
 					shellHook = ''
 						export PGDATA=$(pwd)/pg_data
 						echo "PGDATA set to $PGDATA"
 						mkdir -p $PGDATA
+
+						if [ ! -f .env ]; then
+							echo "dotenv not found, generating one from example"
+							cp .env.example .env
+						fi
 
 						if [ ! -f $PGDATA/postgresql.conf ]; then
 							initdb -D $PGDATA --no-locale --encoding UTF8
