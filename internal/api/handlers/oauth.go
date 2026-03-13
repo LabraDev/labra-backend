@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/lpernett/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
 )
