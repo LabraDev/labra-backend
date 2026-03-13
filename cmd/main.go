@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
-	"labra-backend/internal/api/routes"
-
 	"github.com/lpernett/godotenv"
+	"labra-backend/internal/api/routes"
 )
 
 const PORT = "8080"
@@ -19,8 +19,15 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	routes.HealthRoute(mux)
 	routes.Oauth(mux)
 	// TODO: probably switch this to TLS
-	fmt.Println("Server starting on :", PORT)
-	http.ListenAndServe("localhost:"+PORT, mux)
+
+	listenOn := "localhost" + ":" + PORT
+
+	fmt.Println("Server starting on :", listenOn)
+	err = http.ListenAndServe(listenOn, mux)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
